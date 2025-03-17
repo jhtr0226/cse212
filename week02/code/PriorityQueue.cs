@@ -25,7 +25,7 @@
         var highPriorityIndex = 0;
         for (int index = 1; index < _queue.Count; index++)
         {
-            if (_queue[index].Priority > _queue[highPriorityIndex].Priority) // FIX: Only strictly greater, not equal
+            if (_queue[index].Priority > _queue[highPriorityIndex].Priority)
             {
                 highPriorityIndex = index;
             }
