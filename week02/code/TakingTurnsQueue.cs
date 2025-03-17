@@ -9,19 +9,19 @@
 /// </summary>
 public class TakingTurnsQueue
 {
-    private readonly PersonQueue _people = new();
+    private readonly Queue<QueueMember> _queue = new();  // Using "QueueMember" to avoid conflicts
 
-    public int Length => _people.Length;
+    public int Length => _queue.Count;
 
     /// <summary>
-    /// Add new people to the queue with a name and number of turns
+    /// Add a new person to the queue with a name and number of turns.
     /// </summary>
     /// <param name="name">Name of the person</param>
     /// <param name="turns">Number of turns remaining</param>
     public void AddPerson(string name, int turns)
     {
-        var person = new Person(name, turns);
-        _people.Enqueue(person);
+        var individual = new QueueMember(name, turns);
+        _queue.Enqueue(individual);
     }
 
     /// <summary>
@@ -31,27 +31,50 @@ public class TakingTurnsQueue
     /// person has an infinite number of turns.  An error exception is thrown 
     /// if the queue is empty.
     /// </summary>
-    public Person GetNextPerson()
+    public QueueMember GetNextPerson()
     {
-        if (_people.IsEmpty())
+        if (_queue.Count == 0)
         {
             throw new InvalidOperationException("No one in the queue.");
         }
-        else
-        {
-            Person person = _people.Dequeue();
-            if (person.Turns > 1)
-            {
-                person.Turns -= 1;
-                _people.Enqueue(person);
-            }
 
-            return person;
+        QueueMember individual = _queue.Dequeue();
+
+        if (individual.Turns > 1)
+        {
+            individual.Turns -= 1;
+            _queue.Enqueue(individual);
         }
+        else if (individual.Turns <= 0)
+        {
+            _queue.Enqueue(individual);
+        }
+
+        return individual;
     }
 
     public override string ToString()
     {
-        return _people.ToString();
+        return $"Queue: [{string.Join(", ", _queue)}]";
+    }
+}
+
+/// <summary>
+/// Defines a QueueMember (formerly Person) to avoid conflicts with other "Person" classes.
+/// </summary>
+public class QueueMember
+{
+    public string Name { get; }
+    public int Turns { get; set; }
+
+    public QueueMember(string name, int turns)
+    {
+        Name = name;
+        Turns = turns;
+    }
+
+    public override string ToString()
+    {
+        return $"{Name} ({Turns} turns left)";
     }
 }
