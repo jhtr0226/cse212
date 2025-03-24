@@ -32,8 +32,19 @@ public class Maze
     /// </summary>
     public void MoveLeft()
     {
-        // FILL IN CODE
+        // Get the current position's move options
+        var directions = _mazeMap[(_currX, _currY)];
+
+        // Index 0 = left
+        if (!directions[0])
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+
+        // If we can move left, just subtract 1 from X
+        _currX -= 1;
     }
+
 
     /// <summary>
     /// Check to see if you can move right.  If you can, then move.  If you
@@ -41,7 +52,17 @@ public class Maze
     /// </summary>
     public void MoveRight()
     {
-        // FILL IN CODE
+        // Get the current position's move options
+        var directions = _mazeMap[(_currX, _currY)];
+
+        // Index 1 = right
+        if (!directions[1])
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+
+        // If we can move right, add 1 to X
+        _currX += 1;
     }
 
     /// <summary>
@@ -50,7 +71,17 @@ public class Maze
     /// </summary>
     public void MoveUp()
     {
-        // FILL IN CODE
+        // Get the current position's move options
+        var directions = _mazeMap[(_currX, _currY)];
+
+        // Index 2 = up
+        if (!directions[2])
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+
+        // If we can move up, subtract 1 from Y
+        _currY -= 1;
     }
 
     /// <summary>
@@ -59,7 +90,17 @@ public class Maze
     /// </summary>
     public void MoveDown()
     {
-        // FILL IN CODE
+        // Get the current position's move options
+        var directions = _mazeMap[(_currX, _currY)];
+
+        // Index 3 = down
+        if (!directions[3])
+        {
+            throw new InvalidOperationException("Can't go that way!");
+        }
+
+        // If we can move down, add 1 to Y
+        _currY += 1;
     }
 
     public string GetStatus()
