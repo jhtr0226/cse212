@@ -80,7 +80,18 @@ public class BinarySearchTree : IEnumerable<int>
 
     private void TraverseBackward(Node? node, List<int> values)
     {
-        // TODO Problem 3
+        // If there's no node, nothing to add
+        if (node is not null)
+        {
+            // 1. Visit the right subtree first (larger values)
+            TraverseBackward(node.Right, values);
+
+            // 2. Then visit the current node
+            values.Add(node.Data);
+
+            // 3. Finally, visit the left subtree (smaller values)
+            TraverseBackward(node.Left, values);
+        }
     }
 
     /// <summary>
@@ -99,8 +110,10 @@ public class BinarySearchTree : IEnumerable<int>
     }
 }
 
-public static class IntArrayExtensionMethods {
-    public static string AsString(this IEnumerable array) {
+public static class IntArrayExtensionMethods
+{
+    public static string AsString(this IEnumerable array)
+    {
         return "<IEnumerable>{" + string.Join(", ", array.Cast<int>()) + "}";
     }
 }

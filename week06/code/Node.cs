@@ -11,35 +11,68 @@ public class Node
 
     public void Insert(int value)
     {
-        // TODO Start Problem 1
-
+        // Check if value is LESS than the current node's data
         if (value < Data)
         {
-            // Insert to the left
+            // If there's no node to the left, add it here
             if (Left is null)
                 Left = new Node(value);
             else
-                Left.Insert(value);
+                Left.Insert(value); // Keep going left recursively
         }
-        else
+        // If value is GREATER than the current node's data
+        else if (value > Data)
         {
-            // Insert to the right
+            // If there's no node to the right, add it here
             if (Right is null)
                 Right = new Node(value);
             else
-                Right.Insert(value);
+                Right.Insert(value); // Keep going right recursively
+        }
+        // If value is EQUAL to current node, do nothing (this avoids duplicates)
+        else
+        {
+            // No need to insert duplicates, so we skip it
+            return;
         }
     }
 
     public bool Contains(int value)
     {
-        // TODO Start Problem 2
-        return false;
+        // Check if the current node holds the value
+        if (value == Data)
+        {
+            return true; // Found the value
+        }
+        // If value is less, we should go left
+        else if (value < Data)
+        {
+            // If there's no left child, value is not here
+            if (Left is null)
+                return false;
+
+            // Otherwise, keep searching in the left subtree
+            return Left.Contains(value);
+        }
+        // If value is greater, we go right
+        else
+        {
+            // If there's no right child, value is not here
+            if (Right is null)
+                return false;
+
+            // Otherwise, keep searching in the right subtree
+            return Right.Contains(value);
+        }
     }
 
     public int GetHeight()
     {
-        // TODO Start Problem 4
-        return 0; // Replace this line with the correct return statement(s)
+        // If there's no left or right child, both are considered height 0
+        int leftHeight = Left?.GetHeight() ?? 0;
+        int rightHeight = Right?.GetHeight() ?? 0;
+
+        // The height of this node is 1 + the taller subtree
+        return 1 + Math.Max(leftHeight, rightHeight);
     }
 }
